@@ -3,4 +3,5 @@ export default fonts = {
     RobotoBold: 'Roboto-Bold',
     RobotoMedium: 'Roboto-Medium',
     RobotoRegular: 'Roboto-Regular',
+    RobotoThin:'Roboto-Thin'
 }

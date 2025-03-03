@@ -5,12 +5,13 @@ const User = require('../models/User');
 const router = express.Router();
 
 router.post('/signup', async (req, res) => {
-  const { name, email, password } = req.body;
+  const {name, email, password } = req.body;
+  console.log("Register DATA IS",req.body)
   try {
     let user = await User.findOne({ email });
     if (user) return res.status(400).json({ msg: 'User already exists' });
-
-    user = new User({ name, email, password });
+     
+    user = new User({name, email, password });
     await user.save();
 
     const payload = { user: { id: user.id } };
@@ -19,6 +20,7 @@ router.post('/signup', async (req, res) => {
       res.json({ token });
     });
   } catch (err) {
+    console.error('Signup Error:', err);
     res.status(500).send('Server error');
   }
 });
@@ -38,6 +40,7 @@ router.post('/login', async (req, res) => {
       res.json({ token });
     });
   } catch (err) {
+    console.error('Login Error:', err);
     res.status(500).send('Server error');
   }
 });
