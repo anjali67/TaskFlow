@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const authRoutes = require('./routes/auth'); 
+const taskRoutes = require('./routes/tasks')
 
 dotenv.config();
 
@@ -24,5 +25,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/auth', authRoutes); 
+app.use('/tasks',taskRoutes)
+
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

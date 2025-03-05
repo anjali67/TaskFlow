@@ -95,7 +95,7 @@ const SignUp = (props) => {
      }}
      error={confirmPasswordError}
      />
-    <AuthBottom onButtonPress={() => onButtonPress()} gotoScreen={() => props.navigation.navigate('Login') } checkedButton={checked} setCheckedButton={setChecked} buttonCheckError={buttonCheckError} title={'Already have an account?'} subTitle={'Back to Sign In'} loading={loading}/> 
+    <AuthBottom btnTitle={'SignUp'} onButtonPress={() => onButtonPress()} gotoScreen={() => props.navigation.navigate('Login') } checkedButton={checked} setCheckedButton={setChecked} buttonCheckError={buttonCheckError} title={'Already have an account?'} subTitle={'Back to Sign In'} loading={loading}/> 
     </ScrollView>
   );
 };

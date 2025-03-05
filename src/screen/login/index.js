@@ -7,6 +7,7 @@ import {  ValidateEmail, ValidPassword } from '../../utills/Validation';
 import { useSelector , useDispatch } from 'react-redux';
 import { clearError, loginUser } from '../../redux/slice/loginSlice';
 import {showMessage} from 'react-native-flash-message';
+import { Title } from 'react-native-paper';
 
 const Login = (props) => {
    const [email, setEmail] = React.useState('');
@@ -15,6 +16,7 @@ const Login = (props) => {
    const [passwordError,setPassowrdError] =  React.useState('')
     const [checked, setChecked] = React.useState(false);
     const [buttonCheckError,setButtonCheckedError] = React.useState('')
+    const [error,setError] = React.useState('')
     const dispatch = useDispatch()
     const {loading } = useSelector((state) => state.login)
   
@@ -40,14 +42,14 @@ const Login = (props) => {
           duration: 1000,
           floating: true,
           icon: 'auto', 
-        }),setEmailError(''),setPassowrdError('')})
+        }),setEmailError(''),setPassowrdError(''),setError('')})
         .catch((error) => {
           console.log('ERROR IS', error);
-          setEmailError(error?.msg || 'Login failed')
+          setError(error?.msg || 'Login failed')
         })
       } catch (error) {
          console.log("ERROR IS",error)
-         setEmailError(error?.msg || 'Login failed')
+         setError(error?.msg || 'Login failed')
       }
      }
    }
@@ -69,7 +71,8 @@ const Login = (props) => {
      }}
       error={passwordError}
      />
-    <AuthBottom loading={loading} onButtonPress={() => onButtonPress()} gotoScreen={() => props.navigation.navigate('SignUp') } checkedButton={checked} setCheckedButton={setChecked} buttonCheckError={buttonCheckError} title={'Don’t have an account?'} subTitle={'Create Account'}/> 
+     {error && <Title style={styles.error}>{error}</Title>}
+    <AuthBottom btnTitle={'Sign in'} loading={loading} onButtonPress={() => onButtonPress()} gotoScreen={() => props.navigation.navigate('SignUp') } checkedButton={checked} setCheckedButton={setChecked} buttonCheckError={buttonCheckError} title={'Don’t have an account?'} subTitle={'Create Account'}/> 
     </ScrollView>
   );
 };

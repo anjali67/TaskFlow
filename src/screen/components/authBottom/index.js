@@ -26,7 +26,7 @@ export default function AuthBottom(props) {
       {!props.checkedButton && <Title style={styles.error}>{props.buttonCheckError}</Title>}
      <View style={styles.center}>
      <Button mode="contained" onPress={props.onButtonPress} style={styles.button}>
-         {props.loading ? <ActivityIndicator color='white'/> : 'Sign Up'} 
+         {props.loading ? <ActivityIndicator color='white'/> : props.btnTitle} 
       </Button>
       <Title style={styles.textStyle}>other way to sign in</Title>
       <View style={styles.rowView}>
