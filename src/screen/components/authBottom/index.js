@@ -37,8 +37,7 @@ export default function AuthBottom(props) {
      <View style={styles.inner}>
      <Title style={styles.title}>{props.title}<TouchableOpacity onPress={props.gotoScreen}><Title style={[styles.title,{color:appColors.title,fontFamily:appFonts.RobotoBlack,height:windowHeight(20),marginTop:windowHeight(5)}]}>{props.subTitle}</Title></TouchableOpacity></Title>
      </View>
-    </View>
-    
+    </View>   
     </>
   )
 }

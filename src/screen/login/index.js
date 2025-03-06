@@ -1,5 +1,5 @@
 import React from 'react';
-import { View ,Image,ScrollView} from 'react-native';
+import { View ,Image,ScrollView,SafeAreaView} from 'react-native';
 import TextInputView from '../components/textInput';
 import AuthBottom from '../components/authBottom';
 import { styles } from './styles';
@@ -55,7 +55,8 @@ const Login = (props) => {
    }
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.contentContainerStyle} style={styles.container}>
+    <SafeAreaView>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.contentContainerStyle} style={styles.container}>
         <View style={styles.main}>
              <Image source={require('../../assets/images/Vector.png')} style={styles.image}/>
         </View>
@@ -74,6 +75,7 @@ const Login = (props) => {
      {error && <Title style={styles.error}>{error}</Title>}
     <AuthBottom btnTitle={'Sign in'} loading={loading} onButtonPress={() => onButtonPress()} gotoScreen={() => props.navigation.navigate('SignUp') } checkedButton={checked} setCheckedButton={setChecked} buttonCheckError={buttonCheckError} title={'Don’t have an account?'} subTitle={'Create Account'}/> 
     </ScrollView>
+    </SafeAreaView>
   );
 };
 

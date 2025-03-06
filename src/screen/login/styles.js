@@ -4,6 +4,10 @@ import appColors from "../../theme/appColors";
 import appFonts from "../../theme/appFonts";
 
 export const styles = StyleSheet.create({
+  mainContainer:{
+    flex:1,
+    backgroundColor:appColors.white
+  },
     container: {
       flex: 1,
       padding: 20,

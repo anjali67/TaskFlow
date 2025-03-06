@@ -11,6 +11,9 @@ import Home from '../screen/home'
 import Search from '../screen/search';
 import Settings from '../screen/settings';
 import Notification from '../screen/notification';
+import AddTask from '../screen/addTask';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+
 const Stack = createNativeStackNavigator();
 
 const ScreenWrapper = ({ component: Component, ...rest }) => (
@@ -21,11 +24,12 @@ const ScreenWrapper = ({ component: Component, ...rest }) => (
 
 export default function Navigation() {
   return (
+    <GestureHandlerRootView>
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          {/* <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="SignUp" component={SignUp} /> */}
+        <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="SignUp" component={SignUp} />
           <Stack.Screen name="Home">
             {(props) => <ScreenWrapper {...props} component={Home} />}
           </Stack.Screen>
@@ -37,10 +41,12 @@ export default function Navigation() {
           </Stack.Screen>
           <Stack.Screen name="Notification">
             {(props) => <ScreenWrapper {...props} component={Notification} />}
-          </Stack.Screen>
+          </Stack.Screen> 
+         <Stack.Screen name="AddTask" component={AddTask} />
         </Stack.Navigator>
         <FlashMessage position={'bottom'} />
       </NavigationContainer>
     </Provider>
+     </GestureHandlerRootView>
   );
 }
