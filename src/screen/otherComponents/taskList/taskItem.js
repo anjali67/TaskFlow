@@ -1,12 +1,12 @@
 import React from 'react';
-import { View, Text, Dimensions } from 'react-native';
+import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, { useSharedValue, useAnimatedStyle, withTiming, runOnJS } from 'react-native-reanimated';
 import { styles } from '../taskList/styles';
 import { Delete } from '../../../assets/icons/delete';
 import appColors from '../../../theme/appColors';
 
-const TaskItem = ({ title, onDismiss, item }) => {
+const TaskItem = ({ onDismiss, item,navigation }) => {
   // Create a shared value for this task item
   const translateX = useSharedValue(0);
   const LIST_ITEM_HEIGHT = 70;
@@ -50,23 +50,30 @@ const TaskItem = ({ title, onDismiss, item }) => {
 
   const rTaskContainerStyle = useAnimatedStyle(() => {
     return {
-      height: itemHeight.value,
       marginVertical: marginVertical.value,
       opacity: opacity.value,
     };
   });
 
   return (
-    <Animated.View style={[styles.mainContainer, rTaskContainerStyle]}>
+    <Animated.View key={item?._id} style={[styles.mainContainer, rTaskContainerStyle]}>
       <GestureDetector gesture={panGesture}>
+        <TouchableOpacity activeOpacity={0.9}  onPress={() => navigation.navigate('AddTask', { updatedItem: item })}>
         <Animated.View style={[styles.task, rStyle]}>
-          {/* Delete Icon */}
+         <View style={{flexDirection:"row"}}>
+          <View style={styles.textContainer}>
+            <Text style={styles.title}>{item.title}</Text>
+          </View>
           <View style={styles.iconContainer}>
             <Delete color={appColors.error} />
           </View>
-          {/* Task Title */}
-          <Text>{title}</Text>
+          </View>
+           <Text style={styles.description} numberOfLines={2} ellipsizeMode="tail">
+              {item.description}
+            </Text>
         </Animated.View>
+        </TouchableOpacity>
+       
       </GestureDetector>
     </Animated.View>
   );

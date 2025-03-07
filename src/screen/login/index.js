@@ -1,13 +1,14 @@
 import React from 'react';
-import { View ,Image,ScrollView,SafeAreaView} from 'react-native';
+import { View ,Image,ScrollView} from 'react-native';
 import TextInputView from '../components/textInput';
 import AuthBottom from '../components/authBottom';
 import { styles } from './styles';
 import {  ValidateEmail, ValidPassword } from '../../utills/Validation';
 import { useSelector , useDispatch } from 'react-redux';
-import { clearError, loginUser } from '../../redux/slice/loginSlice';
-import {showMessage} from 'react-native-flash-message';
+import { clearError, loginUser, setToken } from '../../redux/slice/loginSlice';
 import { Title } from 'react-native-paper';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { displayMessage } from '../../utills/function';
 
 const Login = (props) => {
    const [email, setEmail] = React.useState('');
@@ -19,43 +20,49 @@ const Login = (props) => {
     const [error,setError] = React.useState('')
     const dispatch = useDispatch()
     const {loading } = useSelector((state) => state.login)
+
+
+    const onButtonPress = async () => {
+      const emailValidation = ValidateEmail(email);
+      const passwordValidation = ValidPassword(password);
   
-   const onButtonPress =  async() => {
-     const emailValidation = ValidateEmail(email)
-     const passwordValidation = ValidPassword(password)
-
-     if(emailValidation || passwordValidation || checked == false) {
-       setEmailError(emailValidation)
-       setPassowrdError(passwordValidation)
-       setButtonCheckedError("Please select agreement")
-       return
-     } else {
-      try {
-        dispatch(clearError())
-        const payload = { email, password}
-
-        dispatch(loginUser(payload))
-        .unwrap()
-        .then(() => {showMessage({
-          message: 'Login Successfully',
-          type: 'success',
-          duration: 1000,
-          floating: true,
-          icon: 'auto', 
-        }),setEmailError(''),setPassowrdError(''),setError('')})
-        .catch((error) => {
+      if (emailValidation || passwordValidation || checked == false) {
+        setEmailError(emailValidation);
+        setPassowrdError(passwordValidation);
+        setButtonCheckedError('Please select agreement');
+        return;
+      } else {
+        try {
+          dispatch(clearError());
+          const payload = { email, password };
+          dispatch(loginUser(payload))
+            .unwrap()
+            .then(async (response) => {
+              // Save the token to AsyncStorage
+              await AsyncStorage.setItem('token', response.token);
+  
+              // Dispatch an action to set the token in the Redux state
+              dispatch(setToken(response.token));
+              console.log("RESPONSE IS",response)
+              displayMessage({message:'Login Successfully'})  
+              setEmailError('');
+              setPassowrdError('');
+              setError('');
+              props.navigation.navigate('Home');
+            })
+            .catch((error) => {
+              console.log('ERROR IS', error);
+              setError(error?.msg || 'Login failed');
+            });
+        } catch (error) {
           console.log('ERROR IS', error);
-          setError(error?.msg || 'Login failed')
-        })
-      } catch (error) {
-         console.log("ERROR IS",error)
-         setError(error?.msg || 'Login failed')
+          setError(error?.msg || 'Login failed');
+        }
       }
-     }
-   }
+    };
+  
 
   return (
-    <SafeAreaView>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.contentContainerStyle} style={styles.container}>
         <View style={styles.main}>
              <Image source={require('../../assets/images/Vector.png')} style={styles.image}/>
@@ -75,7 +82,7 @@ const Login = (props) => {
      {error && <Title style={styles.error}>{error}</Title>}
     <AuthBottom btnTitle={'Sign in'} loading={loading} onButtonPress={() => onButtonPress()} gotoScreen={() => props.navigation.navigate('SignUp') } checkedButton={checked} setCheckedButton={setChecked} buttonCheckError={buttonCheckError} title={'Don’t have an account?'} subTitle={'Create Account'}/> 
     </ScrollView>
-    </SafeAreaView>
+
   );
 };
 

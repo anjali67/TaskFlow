@@ -9,18 +9,25 @@ import LogoutIcon from '../assets/images/logout.png';
 import menu from '../assets/images/menu.png';
 import close from '../assets/images/close.png';
 import { styles } from './styles';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useDispatch } from 'react-redux';
+import { logOutUser } from '../redux/slice/loginSlice';
 
 const Drawer = ({ children }) => {
   const navigation = useNavigation();
   const [currentTab, setCurrentTab] = useState('Home'); 
   const [showMenu, setShowMenu] = useState(false);
+  const dispatch = useDispatch()
 
   const offsetValue = useRef(new Animated.Value(0)).current;
   const scaleValue = useRef(new Animated.Value(1)).current;
   const closeButtonOffset = useRef(new Animated.Value(0)).current;
 
-  const handleTabPress = (title) => {
+  const handleTabPress = async (title) => {
     if (title === 'LogOut') {
+      await AsyncStorage.setItem('token',null)
+      dispatch(logOutUser())
+      navigation.navigate('Auth')
     } else {
       setCurrentTab(title);
       navigation.navigate(title); 

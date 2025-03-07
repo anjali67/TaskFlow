@@ -1,16 +1,19 @@
 import { StyleSheet } from "react-native";
 import appColors from "../../../theme/appColors";
 import { windowHeight, windowWidth } from "../../../theme/appConstant";
+import { fontSizes } from "../../../theme/appConstant";
+import appFonts from "../../../theme/appFonts";
 
 export const styles = StyleSheet.create({
     main:{
-        marginTop:windowHeight(20),
-        right:windowWidth(10)
+       marginTop:windowHeight(10),
+        right:windowWidth(10),
+       paddingBottom:20,
+       height:"73%"
+
     },
     task:{
         width:'97%',
-        height:70,
-      
         backgroundColor:appColors.white,
         shadowOpacity:0.08,
         shadowOffset:{
@@ -20,22 +23,35 @@ export const styles = StyleSheet.create({
         shadowRadius:10,
         elevation:5,
         borderRadius:10,
-        padding:15
+        paddingBottom:windowHeight(12),        
+       padding:20,     
     },
     mainContainer:{
         width:'100%',
-        alignItems:"center",
-        justifyContent:"center",
         paddingLeft:20,
-        marginVertical:10,
     },
     iconContainer:{
-        height:70,
-        width:70,
         position:"absolute",
         right:0,
         alignItems:"center",
-        justifyContent:"center"
+        justifyContent:"center",
+     top:windowHeight(-3)
+    },
+    title:{
+        color:appColors.black,
+        fontSize:fontSizes.FONT20,
+        fontWeight:"bold"
+    },
+    description:{
+        color:appColors.lightGray,
+        fontFamily:appFonts.RobotoRegular,
+         paddingTop:4
+    },
+    center:{
+        flex:1,
+        alignItems:"center",
+        justifyContent:"center",
+       
     }
 });
 

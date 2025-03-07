@@ -1,7 +1,19 @@
-import React from 'react';
+import React, { useEffect }  from 'react';
 import {View, Modal,TouchableOpacity,Text} from 'react-native';
 import styles from './styles';
+import { useDispatch , useSelector } from 'react-redux';
+import { deleteAllTask } from '../../../redux/slice/taskSlice';
+
 export default function popupModal(props) {
+  const dispatch = useDispatch()
+  const { tasks} = useSelector((state) => state.tasks)
+
+  useEffect(() => {},[tasks])
+
+  const onDeleteClick = async () => {
+   await dispatch(deleteAllTask()).then(() => props.setModalVisible(false))
+  }
+
   return (
     <View style={styles.main}>
       <Modal
@@ -16,10 +28,10 @@ export default function popupModal(props) {
         <View>
           <Text
             style={
-              styles.title}>
-            Oops!
+               styles.title}>
+            {tasks ? 'Are you sure you delete all Task ? ' : ' Oops!'}
           </Text>
-          <Text style={styles.content}>There is No Task For delete!</Text>
+          {tasks ? <Text style={styles.content}>Delete all Task</Text> : <Text style={styles.content}>There is No Task For delete!</Text>}
           <Text style={styles.horizontalLine}></Text>
           <View style={styles.row}>
             <TouchableOpacity
@@ -38,7 +50,9 @@ export default function popupModal(props) {
               activeOpacity={0.9}
               onPress={() => props.setModalVisible(false)}>
               <Text style={[styles.title, styles.remove]}>
-                Okay
+                {tasks ? <TouchableOpacity onPress={() => onDeleteClick()}>
+                  <Text style={{color:'blue'}}>Delete</Text>
+                </TouchableOpacity> : 'Okay'}
               </Text>
             </TouchableOpacity>
           </View>

@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const authRoutes = require('./routes/auth'); 
-const taskRoutes = require('./routes/tasks')
+const taskRoutes = require('./routes/tasks');
+const { BASE_URL } = require('../../src/utills/api');
 
 dotenv.config();
 
@@ -11,7 +12,11 @@ const app = express();
 const PORT = process.env.PORT || 5002;
 
 app.use(cors({
-  origin: 'http://192.168.156.74:5002',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+}));
+
+app.use(cors({
+  origin: BASE_URL,
   credentials: true,
 }));
 app.use(express.json());

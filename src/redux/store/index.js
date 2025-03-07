@@ -7,6 +7,6 @@ export const store = configureStore({
     reducer:{
         auth:authReducer,
         login:loginReducer,
-        task:taskReducer
+        tasks:taskReducer
     }
 })

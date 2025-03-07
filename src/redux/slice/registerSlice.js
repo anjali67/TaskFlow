@@ -1,11 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { BASE_URL } from "../../utills/api";
 
 export const registerUser = createAsyncThunk(
     'auth/registerUser',
     async (userData,{rejectWithValue}) => {
         try {
-            const response = await axios.post('http://192.168.156.74:5002/auth/signup',userData)
+            const response = await axios.post(`${BASE_URL}/auth/signup`,userData)
             return response.data
         } catch (error) {
             return rejectWithValue(error.response?.data || 'Registration failed')
@@ -23,7 +24,6 @@ const authSlice = createSlice({
     },
     reducers:{
         clearError: (state) => {
-            console.log("CLEAR ERROR CALLING ",state)
             state.error = null;
           },
     },

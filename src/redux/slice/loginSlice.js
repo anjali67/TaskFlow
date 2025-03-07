@@ -1,10 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { BASE_URL } from "../../utills/api";
 import axios from "axios";
 export const loginUser = createAsyncThunk(
     'auth/loginUser',
     async (userData, {rejectWithValue}) => {
         try {
-            const response = await axios.post('http://192.168.156.74:5002/auth/login',userData)
+            const response = await axios.post(`${BASE_URL}/auth/login`,userData)
             return response.data
         } catch (error) {
             return rejectWithValue(error?.response?.data || 'Registered failed')
@@ -15,35 +16,40 @@ export const loginUser = createAsyncThunk(
 const loginSlice = createSlice({
     name:'login',
     initialState:{
+        token:null,
         loading:false,
         error:null,
         user:null,
     },
     reducers:{
+        setToken: (state, action) => {
+            state.token = action.payload;
+          },
         clearError:(state) => {
-            console.log("CLEARED ERROR CALL")
             state.error = null
+        },
+        logOutUser: (state) => {
+            state.user = null
+            state.token = null
         }
     },
     extraReducers:(builder) => {
         builder
         .addCase(loginUser.pending,(state) => {
-            console.log("PENDING CALL",state)
             state.pending = true,
             state.error = null
         })
         .addCase(loginUser.fulfilled,(state,action) => {
-            console.log("Fulfiield call",state,action)
             state.loading = false
+            state.token = action.payload.token,
             state.user = action.payload
         })
         .addCase(loginUser.rejected,(state,action) => {
-            console.log("Rejected call",state,action)
             state.loading = false
             state.error = action.payload || 'Register failed'
         })
     }
 })
 
-export const {clearError} = loginSlice.actions
+export const {setToken,clearError,logOutUser} = loginSlice.actions
 export default loginSlice.reducer

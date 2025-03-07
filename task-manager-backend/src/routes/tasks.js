@@ -69,4 +69,15 @@ router.delete('/:id', auth, async (req, res) => {
   }
 });
 
+
+//Delete all task
+router.delete('/', async (req, res) => {
+  try {
+    await Task.deleteMany({});
+    res.json({ success: true, message: 'All tasks deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting tasks:', error);
+    res.status(500).json({ success: false, message: 'Failed to delete tasks' });
+  }
+});
 module.exports = router;

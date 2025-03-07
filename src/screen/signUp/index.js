@@ -6,7 +6,7 @@ import { styles } from './styles';
 import { ValidateConfirmPassword, ValidateEmail, ValidateName, ValidPassword } from '../../utills/Validation';
 import { clearError, registerUser } from '../../redux/slice/registerSlice'
 import { useDispatch , useSelector } from 'react-redux';
-import { showMessage } from 'react-native-flash-message';
+import { displayMessage } from '../../utills/function';
 
 const SignUp = (props) => {
 
@@ -45,29 +45,20 @@ const SignUp = (props) => {
       dispatch(registerUser(payload))
         .unwrap()
         .then(() => {
-         showMessage({
-                   message: 'Register Successfully',
-                   type: 'success',
-                   duration: 1000,
-                   floating: true,
-                   icon: 'auto', 
-                 }),
-                 setEmailError('')
-                 props.navigation.navigate('Login')
+          displayMessage({msg:'Register Successfully'})
+          setEmailError('')
+          props.navigation.navigate('Login')
         })
         
         .catch((error) => {
-          console.log('ERROR IS', error);
           setEmailError(error?.msg || 'Registration failed'); 
         });
     } catch (error) {
-      console.log('ERROR IS', error);
       setEmailError(error?.msg || 'Registration failed'); 
     }
   };
   
   return (
-    <SafeAreaView>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.contentContainerStyle} style={styles.container}>
         <View style={styles.main}>
              <Image source={require('../../assets/images/Vector.png')} style={styles.image}/>
@@ -98,7 +89,7 @@ const SignUp = (props) => {
      />
     <AuthBottom btnTitle={'SignUp'} onButtonPress={() => onButtonPress()} gotoScreen={() => props.navigation.navigate('Login') } checkedButton={checked} setCheckedButton={setChecked} buttonCheckError={buttonCheckError} title={'Already have an account?'} subTitle={'Back to Sign In'} loading={loading}/> 
     </ScrollView>
-    </SafeAreaView>
+
   );
 };
 

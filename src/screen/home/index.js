@@ -16,7 +16,7 @@ const HomeScreen = ({navigation}) => {
   };
   return (
     <SafeAreaView>
-      <View style={{height:"93%",width:"100%"}}>
+      <View style={{width:"100%"}}>
           {/* Header Section */}
      <View style={styles.conatiner}>
         <View />
@@ -44,7 +44,7 @@ const HomeScreen = ({navigation}) => {
       </View>
 
       {/* Lottie Animation */}
-      <TaskList/> 
+      <TaskList navigation={navigation}/> 
      {/* <LottieAnimation/> */}
        
        {/* {popup Modal} */}
@@ -54,12 +54,13 @@ const HomeScreen = ({navigation}) => {
             />
       </View>
       {/* Floating Action Button */}
-       <FAB
+      <FAB
         icon="plus"
         color={appColors.white}
         style={styles.fab}
         onPress={() => navigation.navigate('AddTask')}
       />
+      
     </SafeAreaView>
   );
 };

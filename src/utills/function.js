@@ -1,3 +1,4 @@
+import { showMessage } from 'react-native-flash-message';
 import Toast from 'react-native-toast-message';
  export const showInfoToast = () => {
              Toast.show({
@@ -8,3 +9,16 @@ import Toast from 'react-native-toast-message';
                   position: 'top'
               });
       };
+
+export const displayMessage = ({message,type}) => {
+  showMessage({
+    message: message,
+    type: type ? type : 'success',
+    duration: 1000,
+    floating: true,
+    icon: 'auto',
+  });
+}
+
+
+      
