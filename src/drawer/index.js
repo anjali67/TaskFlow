@@ -1,6 +1,6 @@
 import React, { useRef, useState, useCallback } from 'react';
 import { Animated, Image, SafeAreaView, Text, TouchableOpacity, View } from 'react-native';
-import { useNavigation, useFocusEffect } from '@react-navigation/native'; 
+import { useNavigation, useFocusEffect, CommonActions } from '@react-navigation/native'; 
 import HomeIcon from '../assets/images/home.png';
 import SearchIcon from '../assets/images/search.png';
 import NotificationIcon from '../assets/images/bell.png';
@@ -12,6 +12,7 @@ import { styles } from './styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch } from 'react-redux';
 import { logOutUser } from '../redux/slice/loginSlice';
+import { clearTasks } from '../redux/slice/taskSlice';
 
 const Drawer = ({ children }) => {
   const navigation = useNavigation();
@@ -25,14 +26,23 @@ const Drawer = ({ children }) => {
 
   const handleTabPress = async (title) => {
     if (title === 'LogOut') {
-      await AsyncStorage.setItem('token',null)
+      await AsyncStorage.removeItem('token');
       dispatch(logOutUser())
-      navigation.navigate('Auth')
+      dispatch(clearTasks())
+        navigation.navigate('Login')   
+      // navigation.dispatch(
+      //   CommonActions.reset({
+      //     index: 0,
+      //     routes: [{ name: 'Login' }],
+      //   })
+      // );
     } else {
       setCurrentTab(title);
-      navigation.navigate(title); 
+      navigation.navigate(title);
+      setShowMenu(false);
     }
   };
+  
 
   const animateDrawer = () => {
     Animated.timing(scaleValue, {
@@ -134,11 +144,11 @@ const TabButton = ({ currentTab, handleTabPress, title, image }) => {
   return (
     <TouchableOpacity onPress={() => handleTabPress(title)}>
       <View
-        style={[styles.tabContainer,{ backgroundColor: currentTab === title ? '#5F8575' : 'transparent'}]}
+        style={[styles.tabContainer,{ backgroundColor: currentTab === title ? '#7FA198' : 'transparent'}]}
       >
         <Image
           source={image}
-          style={[styles.imageStyle,{ tintColor: currentTab === title ? '#355E3B' : 'white',}]}
+          style={[styles.imageStyle,{ tintColor: currentTab === title ? '#2A6354' : 'white',}]}
         />
         <Text
           style={[styles.textStyle,{ color: currentTab === title ? '#355E3B' : 'white',}]}

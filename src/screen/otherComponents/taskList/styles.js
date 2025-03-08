@@ -6,11 +6,10 @@ import appFonts from "../../../theme/appFonts";
 
 export const styles = StyleSheet.create({
     main:{
+
        marginTop:windowHeight(10),
         right:windowWidth(10),
        paddingBottom:20,
-       height:"73%"
-
     },
     task:{
         width:'97%',

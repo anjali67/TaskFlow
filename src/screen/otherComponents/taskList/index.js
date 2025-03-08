@@ -5,6 +5,7 @@ import TaskItem from './taskItem';
 import { useDispatch , useSelector } from 'react-redux';
 import { fetchTasks , deleteTask } from '../../../redux/slice/taskSlice';
 import appColors from '../../../theme/appColors';
+import LottieAnimation from '../lottieAnimation'
 
 export default function TaskList(props) {
   const {tasks,loading} = useSelector((state) => state.tasks)
@@ -23,7 +24,7 @@ useEffect(() => {
   const onDismiss = useCallback(async (task) => {
     try {
       await dispatch(deleteTask(task._id)).unwrap();
-      setTaskList((prevTasks) => prevTasks.filter((item) => item._id !== task._id));
+      dispatch(fetchTasks()); // Fetch latest tasks from the backend
     } catch (error) {
       console.error('Failed to delete task:', error);
     }
@@ -45,22 +46,23 @@ useEffect(() => {
 
   return (
     <View style={styles.main}>
-    <FlatList
-      data={taskList}
-      keyExtractor={(item) => item._id}
-      renderItem={({ item }) => (
-        <TaskItem navigation={props.navigation} item={item}  onDismiss={onDismiss} />
-      )}
-      showsVerticalScrollIndicator={false}
-      refreshControl={
-        <RefreshControl
-          refreshing={refreshing}
-          onRefresh={onRefresh}
-          colors={['#0000FF']}
-          tintColor="#0000FF"
-        />
-      }
-    /> 
+  <FlatList
+  data={tasks}  
+  keyExtractor={(item) => item._id}
+  renderItem={({ item }) => (
+    <TaskItem navigation={props.navigation} item={item}  onDismiss={onDismiss} />
+  )}
+  showsVerticalScrollIndicator={false}
+  refreshControl={
+    <RefreshControl
+      refreshing={refreshing}
+      onRefresh={onRefresh}
+      colors={['#0000FF']}
+      tintColor="#0000FF"
+    />
+  }
+  ListEmptyComponent={tasks.length === 0 ? <LottieAnimation /> : null}
+/>
   </View>
 );
 

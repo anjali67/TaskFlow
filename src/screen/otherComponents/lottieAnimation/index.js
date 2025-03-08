@@ -14,7 +14,7 @@ export default function LottieAnimation() {
       loop
     />
     <Title style={styles.textStyle}>
-      You have Done all Task!!
+      Please Create a Task!!
     </Title>
   </View>
   )

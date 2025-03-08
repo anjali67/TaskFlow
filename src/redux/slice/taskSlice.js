@@ -113,6 +113,9 @@ const taskSlice = createSlice({
     clearError: (state) => {
       state.error = null;
     },
+    clearTasks: (state) => {
+      state.tasks = []; 
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -180,14 +183,17 @@ const taskSlice = createSlice({
 
       // Delete task
       .addCase(deleteTask.pending, (state) => {
+        console.log("PEDING",state)
         state.loading = true;
         state.error = null;
       })
       .addCase(deleteTask.fulfilled, (state, action) => {
+        console.log("FULLEIDLE",state,action)
         state.loading = false;
         state.tasks = state.tasks.filter((task) => task._id !== action.payload);
       })
       .addCase(deleteTask.rejected, (state, action) => {
+        console.log("REJECTED",state,action)
         state.loading = false;
         state.error = action.payload;
       })
@@ -210,5 +216,5 @@ const taskSlice = createSlice({
   },
 });
 
-export const { clearError } = taskSlice.actions;
+export const { clearError , clearTasks } = taskSlice.actions;
 export default taskSlice.reducer;

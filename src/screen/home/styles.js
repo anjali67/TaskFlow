@@ -5,7 +5,7 @@ import appFonts from '../../theme/appFonts';
 
 export const styles = StyleSheet.create({
   mainContainer: {
-    flex: 1, // Take up the full height of the screen
+   height:"93%",
     backgroundColor: appColors.white,
   },
   conatiner: {

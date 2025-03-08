@@ -11,9 +11,11 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5002;
 
-app.use(cors({
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], 
-}));
+// app.use(cors({
+//   methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+// }));
+
+//app.use(cors());
 
 app.use(cors({
   origin: BASE_URL,

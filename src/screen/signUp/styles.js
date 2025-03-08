@@ -1,6 +1,8 @@
 import { StyleSheet } from "react-native";
-import { windowHeight } from "../../theme/appConstant";
+import { windowHeight, windowWidth } from "../../theme/appConstant";
 import appColors from "../../theme/appColors";
+import appFonts from "../../theme/appFonts";
+import { fontSizes } from "../../theme/appConstant";
 
 export const styles = StyleSheet.create({
   mainConatiner:{
@@ -24,6 +26,12 @@ export const styles = StyleSheet.create({
     },
     contentContainerStyle:{
   paddingBottom:windowHeight(50)
-    }
+    },
+     error:{
+          color:appColors.error,
+          fontFamily:appFonts.RobotoBold,
+          fontSize:fontSizes.FONT20,
+          marginHorizontal:windowWidth(10)
+        }
    
   });

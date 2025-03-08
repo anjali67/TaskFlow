@@ -1,5 +1,5 @@
 import React  from 'react';
-import { View ,Image,ScrollView,SafeAreaView} from 'react-native';
+import { View ,Image,ScrollView} from 'react-native';
 import TextInputView from '../components/textInput';
 import AuthBottom from '../components/authBottom';
 import { styles } from './styles';
@@ -7,6 +7,7 @@ import { ValidateConfirmPassword, ValidateEmail, ValidateName, ValidPassword } f
 import { clearError, registerUser } from '../../redux/slice/registerSlice'
 import { useDispatch , useSelector } from 'react-redux';
 import { displayMessage } from '../../utills/function';
+import { Title } from 'react-native-paper';
 
 const SignUp = (props) => {
 
@@ -22,6 +23,7 @@ const SignUp = (props) => {
    const [buttonCheckError,setButtonCheckedError] = React.useState('')
    const dispatch = useDispatch()
    const { loading } = useSelector((state) => state.auth);
+   const [error, setError] = React.useState('');
 
    const onButtonPress = async () => {
 
@@ -45,8 +47,9 @@ const SignUp = (props) => {
       dispatch(registerUser(payload))
         .unwrap()
         .then(() => {
-          displayMessage({msg:'Register Successfully'})
+          displayMessage({message:'Register Successfully'})
           setEmailError('')
+          setError('');
           props.navigation.navigate('Login')
         })
         
@@ -54,7 +57,7 @@ const SignUp = (props) => {
           setEmailError(error?.msg || 'Registration failed'); 
         });
     } catch (error) {
-      setEmailError(error?.msg || 'Registration failed'); 
+      setError(error?.message || 'Registered  failed');
     }
   };
   
@@ -87,6 +90,7 @@ const SignUp = (props) => {
      }}
      error={confirmPasswordError}
      />
+       {error && <Title style={styles.error}>{error}</Title>}
     <AuthBottom btnTitle={'SignUp'} onButtonPress={() => onButtonPress()} gotoScreen={() => props.navigation.navigate('Login') } checkedButton={checked} setCheckedButton={setChecked} buttonCheckError={buttonCheckError} title={'Already have an account?'} subTitle={'Back to Sign In'} loading={loading}/> 
     </ScrollView>
 

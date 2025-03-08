@@ -1,4 +1,4 @@
-import React , {useState} from 'react';
+import React , {useEffect, useState} from 'react';
 import { View, TouchableOpacity, Image,SafeAreaView ,Text} from 'react-native';
 import { Delete } from '../../assets/icons/delete';
 import { styles } from './styles';
@@ -7,16 +7,28 @@ import appColors from '../../theme/appColors';
 import TaskList from '../otherComponents/taskList';
 import { FAB } from 'react-native-paper';
 import PopupModal from '../components/popupModal';
-
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { fetchTasks } from '../../redux/slice/taskSlice';
 
 const HomeScreen = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
+  const { token } = useSelector((state) => state.login);
+  const dispatch = useDispatch()
+  console.log("TOKEN IS",token)
   const toggleModal = () => {
     setModalVisible(!modalVisible);
   };
+
+  useEffect(() => {
+    if (token) {
+      dispatch(fetchTasks()); 
+    }
+  }, [token, dispatch]);
   return (
-    <SafeAreaView>
-      <View style={{width:"100%"}}>
+   <View style={styles.mainContainer}>
+     <SafeAreaView style={{flex:1}}>
+      <View style={{width:"100%",flex:1}}>
           {/* Header Section */}
      <View style={styles.conatiner}>
         <View />
@@ -43,9 +55,7 @@ const HomeScreen = ({navigation}) => {
         />
       </View>
 
-      {/* Lottie Animation */}
-      <TaskList navigation={navigation}/> 
-     {/* <LottieAnimation/> */}
+    <TaskList navigation={navigation}/>
        
        {/* {popup Modal} */}
        <PopupModal
@@ -60,8 +70,9 @@ const HomeScreen = ({navigation}) => {
         style={styles.fab}
         onPress={() => navigation.navigate('AddTask')}
       />
-      
     </SafeAreaView>
+  </View>
+   
   );
 };
 
